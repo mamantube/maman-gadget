@@ -70,14 +70,14 @@ class UserController extends Controller
         }
     }
 
-    // public function getUserById($id)
-    // {
-    //     try {
-    //         $user = User::findOrfail($id);
+    public function getUserById($id)
+    {
+        try {
+            $user = User::findOrfail($id);
 
-    //         return response()->json(["Message" => "Detail Pengguna", "user" => $user], 200);
-    //     } catch (Exception $e) {
-    //         return response()->json(["error" => $e->getMessage()], 400);
-    //     }
-    // }
+            return response()->json(["Message" => "Detail Pengguna", "user" => $user], 200);
+        } catch (Exception $e) {
+            return response()->json(["error" => $e->getMessage()], 400);
+        }
+    }
 }

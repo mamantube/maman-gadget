@@ -58,4 +58,26 @@ class UserController extends Controller
             return response()->json(["error" => $e->getMessage()], 400);
         }
     }
+
+    public function getAllUsers()
+    {
+        try {
+            $users = User::all();
+
+            return response()->json(["Message" => "Data Pengguna", "user" => $users], 200);
+        } catch (Exception $e) {
+            return response()->json(["error" => $e->getMessage()], 400);
+        }
+    }
+
+    // public function getUserById($id)
+    // {
+    //     try {
+    //         $user = User::findOrfail($id);
+
+    //         return response()->json(["Message" => "Detail Pengguna", "user" => $user], 200);
+    //     } catch (Exception $e) {
+    //         return response()->json(["error" => $e->getMessage()], 400);
+    //     }
+    // }
 }

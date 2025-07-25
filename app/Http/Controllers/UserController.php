@@ -104,4 +104,17 @@ class UserController extends Controller
             return response()->json(["Message" => "Update data user gagal", "error" => $e->getMessage()], 400);
         }
     }
+
+    public function deleteUser($id)
+    {
+        try {
+            $user = User::findOrFail($id);
+
+            $user->delete();
+
+            return response()->json(["Message" => "User berhasil dihapus"], 200);
+        } catch (Exception $e) {
+            return response()->json(["Message" => $e->getMessage()], 400);
+        }
+    }
 }

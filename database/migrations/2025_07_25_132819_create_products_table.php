@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string("ram");
             $table->string("internal_memory");
             $table->integer("price");
+            $table->integer("stock");
             $table->string("image");
             $table->timestamps();
         });

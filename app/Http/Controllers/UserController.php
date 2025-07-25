@@ -18,7 +18,7 @@ class UserController extends Controller
             $request->validate([
                 "name" => "required|string|max:255",
                 "user_name" => "required|string|max:255|unique:users",
-                "phone" => "required|string|max:15|unique:users",
+                "phone" => ["required", "max:13", "unique:users", "regex:/^(\+62|62)?[\s-]?0?8[1-9]{1}\d{1}[\s-]?\d{4}[\s-]?\d{2,5}$/"],
                 "email" => "required|string|email|max:255|unique:users",
                 "password" =>  ["required", "string", "min:6", "regex:/^(?=.*[A-Z])(?=.*\d).{6,}$/"],
             ]);
@@ -78,6 +78,30 @@ class UserController extends Controller
             return response()->json(["Message" => "Detail Pengguna", "user" => $user], 200);
         } catch (Exception $e) {
             return response()->json(["error" => $e->getMessage()], 400);
+        }
+    }
+
+    public function updateUser(Request $request, $id)
+    {
+        try {
+            $user = User::findOrFail($id);
+
+            $request->validate([
+                "name" => "sometimes|required|string|max:255",
+                "user_name" => "sometimes|required|string|unique:users",
+                "phone" => ["sometimes", "required", "max:13", "unique:users", "regex:/^(\+62|62)?[\s-]?0?8[1-9]{1}\d{1}[\s-]?\d{4}[\s-]?\d{2,5}$/"],
+            ]);
+
+            $user->update([
+                "name" => $request->name ?? $user->name,
+                "user_name" => $request->user_name ?? $user->user_name,
+                "phone" => $request->phone ?? $user->phone
+            ]);
+
+            return response()->json(["Message" => "Data user berhasil diupdate", "user" => $user], 200);
+
+        } catch (Exception $e) {
+            return response()->json(["Message" => "Update data user gagal", "error" => $e->getMessage()], 400);
         }
     }
 }

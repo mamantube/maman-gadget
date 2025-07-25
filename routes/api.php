@@ -9,3 +9,4 @@ Route::post("login", [UserController::class, "login"]);
 Route::get("all-users", [UserController::class, "getAllUsers"]);
 Route::get("user/{id}", [UserController::class, "getUserById"]);
 Route::post("user/{id}", [UserController::class, "updateUser"]);
+Route::delete("user/{id}", [UserController::class, "deleteUser"]);

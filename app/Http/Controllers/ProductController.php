@@ -81,4 +81,35 @@ class ProductController extends Controller
             return response()->json(["Message" => "Data tidak ditemukan", "error" => $e->getMessage(), "trace" => $e->getTrace()[0]], 400);
         }
     }
+
+    public function updateProduct(Request $request, $id)
+    {
+        try {
+            $product = Product::findOrFail($id);
+
+            $request->validate([
+                "product_name" => "sometimes|required|string|max:255",
+                "description" => "sometimes|string|max:500",
+                "ram" => "sometimes|required|integer",
+                "internal_memory" => "sometimes|required|integer",
+                "price" => "sometimes|required|integer",
+                "stock" => "sometimes|required|integer",
+                "image" => "sometimes|required|image|mimes:jpeg,png,jpg|max:2064"
+            ]);
+
+            $product->update([
+                "product_name" => $request->product_name ?? $product->product_name,
+                "description" => $request->description ?? $product->description,
+                "ram" => $request->ram ?? $product->ram,
+                "internal_memory" => $request->internal_memory ?? $product->internal_memory,
+                "price" => $request->price ?? $product->price,
+                "stock" => $request->stock ?? $product->stock,
+                "image" => $request->image ?? $product->image,
+            ]);
+
+            return response()->json(["Message" => "Data produk berhasil diperbaharui", "product" => $product], 200);
+        } catch (Exception $e) {
+            return response()->json(["Message" => "Data produk gagal diperbaharui", "error" => $e->getMessage()], 400);
+        }
+    }
 }

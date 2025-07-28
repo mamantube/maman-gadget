@@ -112,4 +112,17 @@ class ProductController extends Controller
             return response()->json(["Message" => "Data produk gagal diperbaharui", "error" => $e->getMessage()], 400);
         }
     }
+
+    public function deleteProduct($id)
+    {
+        try {
+            $product = Product::findOrFail($id);
+
+            $product->delete();
+
+            return response()->json(["Message" => "Produk berhasil dihapus"], 200);
+        } catch (Exception $e) {
+            return response()->json(["Message" => "Produk gagal dihapus", "error" => $e->getMessage()], 400);
+        }
+    }
 }

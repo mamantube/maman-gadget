@@ -26,7 +26,7 @@ class ProductController extends Controller
 
             $imageUrl = null;
 
-            if($request->hasFile("image") && $request->file("image")->isValid()) {
+            if ($request->hasFile("image") && $request->file("image")->isValid()) {
                 $file = $request->file("image");
 
                 $destinationPath = storage_path("app/public/products");
@@ -42,7 +42,7 @@ class ProductController extends Controller
                 $imageUrl = Storage::url("products/" . $file_name);
             }
 
-           
+
 
             $product = Product::create([
                 "product_name" => $request->product_name,
@@ -71,14 +71,41 @@ class ProductController extends Controller
         }
     }
 
-    public function getAllProduct()
+    public function getAllProduct(Request $request)
     {
         try {
-            $product = Product::all();
+            $per_page = $request->query("per_page", 8);
+            $search = $request->query("search");
+            $query = Product::query();
 
-            return response()->json(["Message" => "Data produk", "product" => $product], 200);
+            if ($search) {
+                $query->where("product_name", "like", "%" . $search . "%")->orWhere("description", "like", "%" . $search . "%");
+            }
+
+
+            $product = $query->paginate($per_page);
+
+            return response()->json([
+                "Message" => "Data produk",
+                "product" => $product->items(), 
+                "meta" => [
+                    "current_page" => $product->currentPage(),
+                    "from" => $product->firstItem(),
+                    "last_page" => $product->lastPage(),
+                    "per_page" => $product->perPage(),
+                    "to" => $product->lastItem(),
+                    "total" => $product->total(),
+                ],
+                "links" => [
+                    "first" => $product->url(1),
+                    "last" => $product->url($product->lastPage()),
+                    "next" => $product->previousPageUrl(),
+                    "prev" => $product->nextPageUrl()
+                ] ], 200);
         } catch (Exception $e) {
-            return response()->json(["Message" => "Data tidak ditemukan", "error" => $e->getMessage(), "trace" => $e->getTrace()[0]], 400);
+            return response()->json([
+                "Message" => "Data tidak ditemukan", 
+                "error" => $e->getMessage()], 400);
         }
     }
 

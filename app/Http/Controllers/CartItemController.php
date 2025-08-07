@@ -37,7 +37,7 @@ class CartItemController extends Controller
                     "product_id" => $product->id,
                 ]);
 
-                $cartItem->quantity = ($cartItem->quantity ?? 1) + $quantity;
+                $cartItem->quantity = ($cartItem->quantity ?? 0) + $quantity;
                 $cartItem->save();
 
                 $product->decrement("stock", $quantity);

@@ -61,7 +61,7 @@ class CartItemController extends Controller
             if (Auth::user()->role !== "admin") {
                 return response()->json(["Message" => "Anda tidak memiliki akses!!!"], 403);
             }
-            
+
             $cartItems = CartItem::with("product", "user")->get();
 
             $totalPrice = $cartItems->sum( function($item) {
@@ -71,6 +71,25 @@ class CartItemController extends Controller
             return response()->json(["Message" => "Semua Cart", "data" => $cartItems], 200);
         } catch (Exception $e) {
             return response()->json(["Message" => "Gagal memuat", "error" => $e->getMessage()], 400);
+        }
+    }
+
+    public function cartDetail($id)
+    {
+        try {
+            $item = CartItem::with("product")->find($id);
+
+            if (!$item) {
+                return response()->json(["Message" => "Data tidak ditemukan"], 404);
+            }
+
+            if ($item->user_id !== Auth::id()) {
+                return response()->json(["Message" => "anda tidak memiliki izin untuk mengakses data ini!!!"], 403);
+            }
+
+            return response()->json(["Message" => "Detail Cart", "data" => $item], 200);
+        } catch (Exception $e) {
+            return response()->json(["Message" => "tidak dapat memuat data", "error" => $e->getMessage()], 400);
         }
     }
 }

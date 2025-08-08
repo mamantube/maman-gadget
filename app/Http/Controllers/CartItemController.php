@@ -92,4 +92,24 @@ class CartItemController extends Controller
             return response()->json(["Message" => "tidak dapat memuat data", "error" => $e->getMessage()], 400);
         }
     }
+
+    public function removeFromCart($id) {
+        try {
+            $item = CartItem::with("product")->find($id);
+
+            if (!$item) {
+                return response()->json(["Message" => "data tidak ditemukan"], 404);
+            }
+
+            if ($item->user_id !== Auth::id()) {
+                return response()->json(["Message" => "anda tidak memiliki akses!!!"], 403);
+            }
+
+            $item->delete();
+
+            return response()->json(["Message" => "item berhasil dihapus dari cart"], 200);
+        } catch (Exception $e) {
+            return response()->json(["Message" => "terjadi kesalahan", "error" => $e->getMessage()], 400);
+        }
+    }
 }

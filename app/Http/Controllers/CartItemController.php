@@ -54,4 +54,23 @@ class CartItemController extends Controller
             ], 400);
         }
     }
+
+    public function allCarts()
+    {
+        try {
+            if (Auth::user()->role !== "admin") {
+                return response()->json(["Message" => "Anda tidak memiliki akses!!!"], 403);
+            }
+            
+            $cartItems = CartItem::with("product", "user")->get();
+
+            $totalPrice = $cartItems->sum( function($item) {
+                return $item->quantity * $item->product->price;
+            });
+
+            return response()->json(["Message" => "Semua Cart", "data" => $cartItems], 200);
+        } catch (Exception $e) {
+            return response()->json(["Message" => "Gagal memuat", "error" => $e->getMessage()], 400);
+        }
+    }
 }

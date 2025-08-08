@@ -28,5 +28,6 @@ Route::middleware(["auth:sanctum"])->group( function() {
         Route::get("/", [CartItemController::class, "allCarts"]);
         Route::post("add-to-carts", [CartItemController::class, "addToCart"]);
         Route::get("/{id}", [CartItemController::class, "cartDetail"]);
+        Route::delete("/{id}", [CartItemController::class, "removeFromCart"]);
     });
 });

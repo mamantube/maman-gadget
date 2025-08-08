@@ -112,4 +112,25 @@ class CartItemController extends Controller
             return response()->json(["Message" => "terjadi kesalahan", "error" => $e->getMessage()], 400);
         }
     }
+
+    public function payment($id)
+    {
+        try {
+            $item = CartItem::with("product", "user")->findOrFail($id);
+            
+            if (!$item) {
+                return response()->json(["Message" => "data tidak ditemukan"], 400);
+            }
+
+            if ($item->user_id !== Auth::id()) {
+                return response()->json(["Message" => "anda tidak memiliki akses!!!"], 403);
+            }
+
+            $item->payment = "success";
+
+            return response()->json(["Message" => "pembayaran berhasil", "data" => $item], 200);
+        } catch (Exception $e) {
+            return response()->json(["Message" => "terjadi kesalahan", "error" => $e->getMessage()], 400);
+        }
+    }
 }

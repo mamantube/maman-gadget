@@ -54,7 +54,7 @@ class ProductController extends Controller
                 "image" => $imageUrl,
             ]);
 
-            return response()->json(["Message" => "Produk berhasil ditambahkan", "Produk" => $product], 200);
+            return response()->json(["Message" => "Produk berhasil ditambahkan", "data" => $product], 200);
         } catch (Exception $e) {
             return response()->json(["Message" => "Produk gagal ditambahkan!!", "error" => $e->getMessage(), "trace" => $e->getTrace()[0] ?? null], 400);
         }
@@ -65,7 +65,7 @@ class ProductController extends Controller
         try {
             $product = Product::findOrFail($id);
 
-            return response()->json(["Message" => "Detail Produk", "produk" => $product], 200);
+            return response()->json(["Message" => "Detail Produk", "data" => $product], 200);
         } catch (Exception $e) {
             return response()->json(["Message" => "Data tidak ditemukan", "error" => $e->getMessage()], 400);
         }
@@ -87,7 +87,7 @@ class ProductController extends Controller
 
             return response()->json([
                 "Message" => "Data produk",
-                "product" => $product->items(), 
+                "data" => $product->items(), 
                 "meta" => [
                     "current_page" => $product->currentPage(),
                     "from" => $product->firstItem(),
@@ -134,7 +134,7 @@ class ProductController extends Controller
                 "image" => $request->image ?? $product->image,
             ]);
 
-            return response()->json(["Message" => "Data produk berhasil diperbaharui", "product" => $product], 200);
+            return response()->json(["Message" => "Data produk berhasil diperbaharui", "data" => $product], 200);
         } catch (Exception $e) {
             return response()->json(["Message" => "Data produk gagal diperbaharui", "error" => $e->getMessage()], 400);
         }

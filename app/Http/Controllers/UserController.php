@@ -53,7 +53,7 @@ class UserController extends Controller
 
             $token = $user->createToken("auth_token")->plainTextToken;
 
-            return response()->json(["message" => "Login berhasil!", "user" => $user, "token" => $token], 200);
+            return response()->json(["message" => "Login berhasil!", "data" => $user, "token" => $token], 200);
         } catch (Exception $e) {
             return response()->json(["error" => $e->getMessage()], 400);
         }
@@ -64,7 +64,7 @@ class UserController extends Controller
         try {
             $users = User::all();
 
-            return response()->json(["Message" => "Data Pengguna", "user" => $users], 200);
+            return response()->json(["Message" => "Data Pengguna", "data" => $users], 200);
         } catch (Exception $e) {
             return response()->json(["error" => $e->getMessage()], 400);
         }
@@ -75,7 +75,7 @@ class UserController extends Controller
         try {
             $user = User::findOrfail($id);
 
-            return response()->json(["Message" => "Detail Pengguna", "user" => $user], 200);
+            return response()->json(["Message" => "Detail Pengguna", "data" => $user], 200);
         } catch (Exception $e) {
             return response()->json(["error" => $e->getMessage()], 400);
         }
@@ -98,7 +98,7 @@ class UserController extends Controller
                 "phone" => $request->phone ?? $user->phone
             ]);
 
-            return response()->json(["Message" => "Data user berhasil diupdate", "user" => $user], 200);
+            return response()->json(["Message" => "Data user berhasil diupdate", "data" => $user], 200);
 
         } catch (Exception $e) {
             return response()->json(["Message" => "Update data user gagal", "error" => $e->getMessage()], 400);

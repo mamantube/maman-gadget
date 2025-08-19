@@ -18,7 +18,7 @@ Route::middleware(["auth:sanctum"])->group( function() {
     Route::post("user/{id}", [UserController::class, "updateUser"]);
     Route::delete("user/{id}", [UserController::class, "deleteUser"]);
     
-    Route::prefix("produccts")->group( function() {
+    Route::prefix("products")->group( function() {
         Route::post("/add-product", [ProductController::class, "addProduct"]);
         Route::post("/{id}", [ProductController::class, "updateProduct"]);
         Route::delete("/{id}", [ProductController::class, "deleteProduct"]);      

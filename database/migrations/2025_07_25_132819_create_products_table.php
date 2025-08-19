@@ -15,8 +15,6 @@ return new class extends Migration
             $table->id();
             $table->string("product_name");
             $table->string("description");
-            $table->string("ram");
-            $table->string("internal_memory");
             $table->integer("price");
             $table->integer("stock");
             $table->string("image");

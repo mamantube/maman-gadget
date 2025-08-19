@@ -16,8 +16,6 @@ class ProductController extends Controller
             $request->validate([
                 "product_name" => "required|string|max:255",
                 "description" => "required|string|max:500",
-                "ram" => "required|integer",
-                "internal_memory" => "required|integer",
                 "price" => "required|integer",
                 "stock" => "required|integer",
                 "image" => "required|image|mimes:jpeg,png,jpg|max:2064"
@@ -47,8 +45,6 @@ class ProductController extends Controller
             $product = Product::create([
                 "product_name" => $request->product_name,
                 "description" => $request->description,
-                "ram" => $request->ram,
-                "internal_memory" => $request->internal_memory,
                 "price" => $request->price,
                 "stock" => $request->stock,
                 "image" => $imageUrl,

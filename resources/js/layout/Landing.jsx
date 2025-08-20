@@ -15,14 +15,6 @@ export default function Landing() {
         setSow(!show);
     }
 
-    function toRegist() {
-        navigateTo("/regist");
-    }
-
-    function toLogin() {
-        navigateTo("/login");
-    }
-
     return (
         <div>
             <Navbar
@@ -80,13 +72,17 @@ export default function Landing() {
                         </Nav>
 
                         <div className=" my-3 my-md-0 me-3 ms-4">
-                            <Button className=" me-3 fw-medium rounded-0" style={{ backgroundColor: "#06B6D4", color: "#1e2939"}}>
-                                Daftar
-                            </Button>
+                            <NavLink to="/register">
+                                <Button className=" me-3 fw-medium rounded-0" style={{ backgroundColor: "#06B6D4", color: "#1e2939"}}>
+                                    Daftar
+                                </Button>
+                            </NavLink>
 
-                            <Button className=" fw-medium rounded-0" style={{ backgroundColor: "#06B6D4", color: "#1e2939"}}>
-                                Masuk
-                            </Button>
+                            <NavLink to="/login">
+                                <Button className=" fw-medium rounded-0" style={{ backgroundColor: "#06B6D4", color: "#1e2939"}}>
+                                    Masuk
+                                </Button>
+                            </NavLink>
 
                         </div>
                     </Navbar.Collapse>

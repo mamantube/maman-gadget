@@ -141,6 +141,12 @@ class ProductController extends Controller
         try {
             $product = Product::findOrFail($id);
 
+            if ($product->image) {
+                $filpath = str_replace("/storage/", "", $product->image);
+
+                Storage::disk("public")->delete($filpath);
+            }
+
             $product->delete();
 
             return response()->json(["Message" => "Produk berhasil dihapus"], 200);

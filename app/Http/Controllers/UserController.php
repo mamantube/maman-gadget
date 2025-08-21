@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Facades\Validator;
 use Exception;
 
 
@@ -15,7 +16,7 @@ class UserController extends Controller
     public function register (Request $request)
     {
         try {
-            $request->validate([
+            $validator = Validator::make($request->all(), [
                 "name" => "required|string|max:255",
                 "user_name" => "required|string|max:255|unique:users",
                 "phone" => ["required", "max:13", "unique:users", "regex:/^(\+62|62)?[\s-]?0?8[1-9]{1}\d{1}[\s-]?\d{4}[\s-]?\d{2,5}$/"],
@@ -23,6 +24,23 @@ class UserController extends Controller
                 "password" =>  ["required", "string", "min:6", "regex:/^(?=.*[A-Z])(?=.*\d).{6,}$/"],
             ]);
 
+            if ($validator->fails()) {
+                $errors = $validator->errors();
+
+                if ($errors->has("email")) {
+                    return response()->json(["Message" => "Email sudah terdaftar"], 422);
+                }
+
+                if ($errors->has("user_name")) {
+                    return response()->json(["message" => "Nama pengguna sudah terdaftar"], 422);
+                }
+
+                if ($errors->has("phone")) {
+                    return response()->json(["message" => "Nomor telpon sudah terdaftar"], 422);
+                }
+
+                return response()->json(["message" => "Validasi gagal", "errors" => $errors], 422);
+            }
             $user = User::create([
                 "name" => $request->name,
                 "user_name" => $request->user_name,

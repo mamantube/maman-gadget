@@ -28,7 +28,7 @@ class UserController extends Controller
                 $errors = $validator->errors();
 
                 if ($errors->has("email")) {
-                    return response()->json(["Message" => "Email sudah terdaftar"], 422);
+                    return response()->json(["message" => "Email sudah terdaftar"], 422);
                 }
 
                 if ($errors->has("user_name")) {

@@ -55,9 +55,7 @@ export default function Register() {
         } catch (error) {
             if (error.response) {
                 const data = error.response.data;
-
                 if (data.errors) {
-                    // Ambil error pertama dari Laravel Validator
                     const firstError = Object.values(data.errors)[0][0];
                     console.error(firstError);
                     setErrorMessage(firstError);

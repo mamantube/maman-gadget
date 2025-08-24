@@ -6,6 +6,11 @@ import { Provider } from "react-redux";
 import { store } from "./store/store";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Landing from "./layout/Landing";
+import Auth from "./layout/Auth";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import Produk from "./pages/Produk";
+import DetailProduk from "./pages/DetailProduk";
 
 const App = () => {
     return (
@@ -14,6 +19,13 @@ const App = () => {
                 <Routes>
                     <Route element={<Landing />}>
                         <Route index path="/" element={<Beranda />} />
+                        <Route path="/product" element={<Produk />} />
+                        <Route path="/product/detail-product/:id" element={<DetailProduk />} />
+                    </Route>
+
+                    <Route element={<Auth />}>
+                        <Route path="/register" element={<Register />} />
+                        <Route path="/login" element={<Login />} />
                     </Route>
                 </Routes>
             </BrowserRouter>

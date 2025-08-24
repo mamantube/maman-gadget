@@ -37,8 +37,8 @@ export default function DetailProduk() {
 
     const handleButtonClick = () => {
         if (!token) {
-            navigateTo("/");
-        } else if (role === "customer") {
+            navigateTo("/login");
+        } else if (role === "user") {
             dispatch(addToCart({ product_id: selectedProduct.id, quantity}))
         } else if (role === "admin") {
             navigateTo(`/admin/product/update-product/${selectedProduct.id}`)
@@ -47,7 +47,7 @@ export default function DetailProduk() {
 
     let buttonText = "Login atau daftar untuk belanja"
 
-    if (token && role === "customer") {
+    if (token && role === "user") {
         buttonText = "Tambahkan ke dalam keranjang"
     } else if (token && role === "admin") {
         buttonText = "Update produk"
@@ -70,9 +70,13 @@ export default function DetailProduk() {
                         <h4 className="text-success">Rp {selectedProduct.price}</h4>
                         <p>{selectedProduct.description}</p>
 
-                        {/* Jika customer login, tampilkan input quantity */}
-                        {token && role === "customer" && (
-                            <Form.Group className="mb-3" style={{ maxWidth: "200px" }}>
+
+                        <Button variant="primary" onClick={handleButtonClick}>
+                            {buttonText}
+                        </Button>
+
+                        {token && role === "user" && (
+                            <Form.Group className="mb-3 mt-3" style={{ maxWidth: "200px" }}>
                                 <Form.Label>Jumlah</Form.Label>
                                 <Form.Control
                                     type="number"
@@ -88,10 +92,6 @@ export default function DetailProduk() {
                                 </small>
                             </Form.Group>
                         )}
-
-                        <Button variant="primary" onClick={handleButtonClick}>
-                            {buttonText}
-                        </Button>
                     </Col>
                 </Row>
             )}

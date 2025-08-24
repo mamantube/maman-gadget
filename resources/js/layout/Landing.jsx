@@ -63,7 +63,7 @@ export default function Landing() {
                             </NavLink>
 
                             <NavLink
-                                to="/"
+                                to="/product"
                                 className=" nav-item text-decoration-none fw-medium ms-md-3"
                                 style={{ color: "#E5E7EB"}}
                             >

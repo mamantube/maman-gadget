@@ -22,7 +22,6 @@ export default function Beranda() {
     if (errorMessage) {
         return <h1 style={{ color: "red" }}>{errorMessage}</h1>;
     }
-
     return (
         <div className=" mt-5 container-fluid">
             <div>

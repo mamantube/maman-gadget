@@ -11,6 +11,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Produk from "./pages/Produk";
 import DetailProduk from "./pages/DetailProduk";
+import Customer from "./layout/Customer";
 
 const App = () => {
     return (
@@ -26,6 +27,12 @@ const App = () => {
                     <Route element={<Auth />}>
                         <Route path="/register" element={<Register />} />
                         <Route path="/login" element={<Login />} />
+                    </Route>
+
+                    <Route element={<Customer />}>
+                        <Route index path="/customer/beranda" element={<Beranda />} />
+                        <Route path="/customer/product" element={<Produk />} />
+                        <Route path="/customer/product/detail-product/:id" element={<DetailProduk />} />
                     </Route>
                 </Routes>
             </BrowserRouter>

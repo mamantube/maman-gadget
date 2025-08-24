@@ -4,6 +4,16 @@ import { IDRCurrency } from "../utils/currencyFormat.js";
 
 export default function CardProduct(props) {
     const { products = {} } = props;
+    const token = localStorage.getItem("token");
+    const role = localStorage.getItem("role")
+
+    let detailLink = `/product/detail-product/${products.id}`
+
+    if (token && role === "user") {
+        detailLink = `/customer/product/detail-product/${products.id}`
+    } else if (token && role === "admin") {
+        detailLink = `/admin/product/detail-product/${products.id}`
+    }
 
     return(
         <div>
@@ -13,7 +23,7 @@ export default function CardProduct(props) {
                     <Card.Title>{products.product_name}</Card.Title>
                     <Card.Text>{IDRCurrency(products.price)}</Card.Text>
 
-                    <NavLink to={`/product/detail-product/${products.id}`}>
+                    <NavLink to={detailLink}>
                         <Button>Detail Produk</Button>
                     </NavLink>
                 </Card.Body>

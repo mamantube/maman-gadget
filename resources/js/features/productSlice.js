@@ -18,7 +18,7 @@ export const addToCart = createAsyncThunk(
     async({ product_id, quantity = 1}, {rejectWithValue}) => {
         try {
             const token = localStorage.getItem("token");
-            const response = await axios.post("http://maman-gatget.test/api/add-tp-carts", {product_id, quantity}, {
+            const response = await axios.post("http://maman-gadget.test/api/carts/add-to-carts", {product_id, quantity}, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -57,7 +57,7 @@ const productSlice = createSlice({
         })
         .addCase(getProducts.rejected, (state, action) => {
             state.isLoading = false;
-            state.errorMessage = action.error.errorMessage;
+            state.errorMessage = action.payload?.Message || action.error.message || "Gagal mengambil data produk";
         })
         .addCase(detailproduct.pending, (state) => {
             state.isLoading = true;
@@ -70,18 +70,19 @@ const productSlice = createSlice({
         })
         .addCase(detailproduct.rejected, (state, action) => {
             state.isLoading = false;
-            state.errorMessage = action.error.errorMessage;
+            state.errorMessage =
+            action.payload?.Message || action.error.message || "Gagal mengambil detail produk";
         })
         .addCase(addToCart.pending, (state) => {
             state.isLoading = true;
             state.errorMessage = "";
         })
-        .addCase(addToCart.fulfilled, (state) => {
+        .addCase(addToCart.fulfilled, (state, action) => {
             state.isLoading = false;
         })
-        .addCase(addToCart.rejected, (state) => {
+        .addCase(addToCart.rejected, (state, action) => {
             state.isLoading = false;
-            state.errorMessage = action.payload?.Message || "Gagal menambahkan ke keranjang";
+            state.errorMessage = action.payload?.Message || action.error.message || "Gagal menambahkan ke keranjang";
         })
     }
 })

@@ -12,6 +12,7 @@ import Register from "./pages/Register";
 import Produk from "./pages/Produk";
 import DetailProduk from "./pages/DetailProduk";
 import Customer from "./layout/Customer";
+import CartList from "./pages/customer/CartsList";
 
 const App = () => {
     return (
@@ -33,6 +34,7 @@ const App = () => {
                         <Route index path="/customer/beranda" element={<Beranda />} />
                         <Route path="/customer/product" element={<Produk />} />
                         <Route path="/customer/product/detail-product/:id" element={<DetailProduk />} />
+                        <Route path="/customer/cart" element={<CartList />} />
                     </Route>
                 </Routes>
             </BrowserRouter>

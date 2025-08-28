@@ -65,7 +65,7 @@ export default function Customer() {
                     <Navbar.Collapse id="basic-navbar-nav" className={openMenu}>
                         <Nav className="me-auto ms-4">
                             <NavLink
-                                to="/customer/berand"
+                                to="/customer/beranda"
                                 className=" nav-item text-decoration-none fw-medium"
                                 activeclassname="active"
                                 style={{ color: "#E5E7EB" }}

@@ -1,16 +1,15 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, useNavigate } from "react-router-dom";
 import { addToCart, detailproduct } from "../features/productSlice";
 import { Row, Col, Button, Form } from "react-bootstrap";
-
+import { toast } from "react-toastify";
 
 export default function DetailProduk() {
-
-    const {id} = useParams();
+    const { id } = useParams();
     const navigateTo = useNavigate();
     const dispatch = useDispatch();
-    const [quantity, setQuantity] = useState(1)
+    const [quantity, setQuantity] = useState(1);
 
     const { selectedProduct, isLoading, errorMessage } = useSelector(
         (state) => state.product
@@ -20,7 +19,7 @@ export default function DetailProduk() {
     const role = localStorage.getItem("role");
 
     useEffect(() => {
-        dispatch(detailproduct(id))
+        if (id) dispatch(detailproduct(id));
     }, [dispatch, id]);
 
     if (isLoading) {
@@ -35,22 +34,32 @@ export default function DetailProduk() {
         return <h3>Produk tidak ditemukan</h3>;
     }
 
-    const handleButtonClick = () => {
+    const handleButtonClick = async () => {
         if (!token) {
             navigateTo("/login");
         } else if (role === "user") {
-            dispatch(addToCart({ product_id: selectedProduct.id, quantity}))
+            try {
+                await dispatch(
+                    addToCart({ product_id: selectedProduct.id, quantity })
+                ).unwrap();
+                toast.success("Produk berhasil ditambahkan ke dalam keranjang");
+                navigateTo("/customer/cart");
+            } catch (error) {
+                toast.error(
+                    error.message || "Gagal menambahkan produk ke keranjang"
+                );
+            }
         } else if (role === "admin") {
-            navigateTo(`/admin/product/update-product/${selectedProduct.id}`)
+            navigateTo(`/admin/product/update-product/${selectedProduct.id}`);
         }
-    }
+    };
 
-    let buttonText = "Login atau daftar untuk belanja"
+    let buttonText = "Login atau daftar untuk belanja";
 
     if (token && role === "user") {
-        buttonText = "Tambahkan ke dalam keranjang"
+        buttonText = "Tambahkan ke dalam keranjang";
     } else if (token && role === "admin") {
-        buttonText = "Update produk"
+        buttonText = "Update produk";
     }
     return (
         <div className="container mt-5">
@@ -67,24 +76,37 @@ export default function DetailProduk() {
                     </Col>
                     <Col md={6}>
                         <h2>{selectedProduct.product_name}</h2>
-                        <h4 className="text-success">Rp {selectedProduct.price}</h4>
+                        <h4 className="text-success">
+                            Rp {selectedProduct.price}
+                        </h4>
                         <p>{selectedProduct.description}</p>
-
 
                         <Button variant="primary" onClick={handleButtonClick}>
                             {buttonText}
                         </Button>
 
                         {token && role === "user" && (
-                            <Form.Group className="mb-3 mt-3" style={{ maxWidth: "200px" }}>
+                            <Form.Group
+                                className="mb-3 mt-3"
+                                style={{ maxWidth: "200px" }}
+                            >
                                 <Form.Label>Jumlah</Form.Label>
                                 <Form.Control
                                     type="number"
                                     min={1}
                                     max={selectedProduct.stock}
-                                    value={quantity}
+                                    placeholder="0"
+                                    step={1}
                                     onChange={(e) =>
-                                        setQuantity(Math.max(1, Number(e.target.value)))
+                                        setQuantity(
+                                            Math.max(
+                                                1,
+                                                Math.min(
+                                                    Number(e.target.value),
+                                                    selectedProduct.stock
+                                                )
+                                            )
+                                        )
                                     }
                                 />
                                 <small className="text-muted">
@@ -96,5 +118,5 @@ export default function DetailProduk() {
                 </Row>
             )}
         </div>
-    )
+    );
 }

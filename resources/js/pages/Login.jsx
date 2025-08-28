@@ -33,12 +33,13 @@ export default function Login() {
                 "http://maman-gadget.test/api/login",
                 values
             );
-            let { id, role } = response.data.data;
+            let { id, role, user_name } = response.data.data;
             let token = response.data.token
 
             localStorage.setItem("role", role);
             localStorage.setItem("token", token);
             localStorage.setItem("id", id);
+            localStorage.setItem("user_name", user_name)
 
             toast.success("Login Berhasil");
             navigateTo(

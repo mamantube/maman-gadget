@@ -91,13 +91,13 @@ class UserController extends Controller
     public function getUserById($id)
     {
         try {
-            $user = User::findOrfail($id);
+            $user = User::with(["cartItem.product"])->findOrfail($id);
 
             return response()->json(["Message" => "Detail Pengguna", "data" => $user], 200);
         } catch (Exception $e) {
             return response()->json(["error" => $e->getMessage()], 400);
         }
-    }
+    }   
 
     public function updateUser(Request $request, $id)
     {

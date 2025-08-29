@@ -43,7 +43,7 @@ export default function Login() {
 
             toast.success("Login Berhasil");
             navigateTo(
-                role === "admin" ? "/admin/beranda" : "/customer/beranda"
+                role === "admin" ? "/admin/data-transaksi" : "/customer/beranda"
             );
         } catch (error) {
             if (error.response) {

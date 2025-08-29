@@ -41,6 +41,8 @@ const App = () => {
 
                     <Route element={<Admin />}>
                         <Route index path="/admin/data-transaksi" element={<DataTransaski />} />
+                        <Route index path="/admin/product" element={<Produk />} />
+                        <Route index path="/admin/product/detail-product/:id" element={<DetailProduk />} />
                     </Route>
                 </Routes>
             </BrowserRouter>

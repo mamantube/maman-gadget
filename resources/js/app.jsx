@@ -13,6 +13,8 @@ import Produk from "./pages/Produk";
 import DetailProduk from "./pages/DetailProduk";
 import Customer from "./layout/Customer";
 import CartList from "./pages/customer/CartsList";
+import Admin from "./layout/Admin";
+import DataTransaski from "./pages/admin/DataTransaksi";
 
 const App = () => {
     return (
@@ -35,6 +37,10 @@ const App = () => {
                         <Route path="/customer/product" element={<Produk />} />
                         <Route path="/customer/product/detail-product/:id" element={<DetailProduk />} />
                         <Route path="/customer/cart" element={<CartList />} />
+                    </Route>
+
+                    <Route element={<Admin />}>
+                        <Route index path="/admin/data-transaksi" element={<DataTransaski />} />
                     </Route>
                 </Routes>
             </BrowserRouter>

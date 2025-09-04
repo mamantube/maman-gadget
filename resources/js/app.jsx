@@ -15,6 +15,7 @@ import Customer from "./layout/Customer";
 import CartList from "./pages/customer/CartsList";
 import Admin from "./layout/Admin";
 import DataTransaski from "./pages/admin/DataTransaksi";
+import UpdateProduct from "./pages/admin/UpdateProduk";
 
 const App = () => {
     return (
@@ -41,8 +42,9 @@ const App = () => {
 
                     <Route element={<Admin />}>
                         <Route index path="/admin/data-transaksi" element={<DataTransaski />} />
-                        <Route index path="/admin/product" element={<Produk />} />
-                        <Route index path="/admin/product/detail-product/:id" element={<DetailProduk />} />
+                        <Route path="/admin/product" element={<Produk />} />
+                        <Route path="/admin/product/detail-product/:id" element={<DetailProduk />} />
+                        <Route path="/admin/product/update-product/:id" element={<UpdateProduct />} />
                     </Route>
                 </Routes>
             </BrowserRouter>
